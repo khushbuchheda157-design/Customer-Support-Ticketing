@@ -137,7 +137,8 @@ router.get('/:ticket_id', (req, res) => {
 // 4. PUT /api/tickets/:ticket_id
 router.put('/:ticket_id', (req, res) => {
   const ticketId = req.params.ticket_id;
-  const { status, priority, note_text } = req.body;
+  const { status, priority, note_text, notes } = req.body;
+  const pendingNoteText = note_text || notes;
 
   try {
     const updateTransaction = db.transaction(() => {
@@ -167,7 +168,7 @@ router.put('/:ticket_id', (req, res) => {
       }
 
       // Always update updated_at if anything changes
-      if (updates.length > 0 || note_text) {
+      if (updates.length > 0 || pendingNoteText) {
         updates.push('updated_at = CURRENT_TIMESTAMP');
       }
 
@@ -180,12 +181,12 @@ router.put('/:ticket_id', (req, res) => {
         stmt.run(...values, ticketId);
       }
 
-      if (note_text && note_text.trim()) {
+      if (pendingNoteText && pendingNoteText.trim()) {
         const stmt = db.prepare(`
           INSERT INTO notes (ticket_id, note_text)
           VALUES (?, ?)
         `);
-        stmt.run(ticketId, note_text.trim());
+        stmt.run(ticketId, pendingNoteText.trim());
       }
 
       const updatedRow = db.prepare('SELECT updated_at FROM tickets WHERE ticket_id = ?').get(ticketId);
