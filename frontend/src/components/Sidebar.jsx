@@ -93,11 +93,11 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       {/* Sidebar Footer User Avatar */}
       <div className="p-4 border-t border-gray-200/50 dark:border-gray-800/50 flex items-center gap-3 bg-gray-50/50 dark:bg-gray-950/20">
         <div className="w-9 h-9 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 flex items-center justify-center text-white text-xs font-semibold shadow-md">
-          DC
+          KC
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">
-            Deepak Chheda
+            Khushbu Chheda
           </p>
           <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">
             Support Agent • Datastraw
